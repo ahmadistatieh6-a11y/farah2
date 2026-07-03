@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>.</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ffeef8 0%, #fbc6d0 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* تأثير القلوب والسمايلات المتطايرة في الخلفية */
+        .floating-element {
+            position: absolute;
+            bottom: -50px;
+            font-size: 24px;
+            animation: floatUp 6s linear infinite;
+            opacity: 0.7;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-110vh) translateX(50px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 40px 30px;
+            box-shadow: 0 15px 35px rgba(216, 27, 96, 0.15);
+            text-align: center;
+            width: 360px;
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            border: 2px solid #fbc6d0;
+            transition: all 0.5s ease;
+        }
+
+        .step {
+            display: none;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .step.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: #d81b60;
+            font-size: 24px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            position: relative;
+            min-height: 60px;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .btn-yes {
+            background-color: #e91e63;
+            color: white;
+        }
+
+        .btn-yes:hover {
+            background-color: #c2185b;
+        }
+
+        .btn-no {
+            background-color: #f0f0f0;
+            color: #444;
+        }
+
+        /* زر "لا" الذي يهرب عند الكبس */
+        #run-no-btn {
+            position: absolute;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 20;
+        }
+
+        /* صندوق الرسالة النهائية */
+        .final-message {
+            color: #333;
+            font-size: 20px;
+            line-height: 1.8;
+            font-weight: 500;
+        }
+
+        .final-heart {
+            font-size: 60px;
+            margin-bottom: 15px;
+            animation: heartbeat 1.2s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            20% { transform: scale(1.15); }
+            40% { transform: scale(1); }
+            60% { transform: scale(1.15); }
+            80% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- السؤال الأول -->
+        <div class="step active" id="step1">
+            <h2>السؤال الأول: <br> بتعرفي انك احلى اشي صارلي بالدنيا ؟ 🥰</h2>
+            <div class="btn-container">
+                <button class="btn-yes" onclick="nextStep(1)">اكيد بعرف</button>
+                <button class="btn-no" onclick="nextStep(1)">لا</button>
+            </div>
+        </div>
+
+        <!-- السؤال الثاني -->
+        <div class="step" id="step2">
+            <h2>السؤال الثاني: <br> طيب بتعرفي إن ضحكتكِ بتعدل مزاجي بثانية؟ 🥺❤️</h2>
+            <div class="btn-container">
+                <button class="btn-yes" onclick="nextStep(2)">يسس  </button>
+                <button class="btn-no" onclick="nextStep(2)">لا مستحيل</button>
+            </div>
+        </div>
+
+        <!-- السؤال الثالث -->
+        <div class="step" id="step3">
+            <h2>السؤال الثالث: <br> متفقة إنو ما في حدا محظوظ في الدنيا قدي؟ 👀✨</h2>
+            <div class="btn-container">
+                <button class="btn-yes" onclick="nextStep(3)">اتفق</button>
+                <button class="btn-no" onclick="nextStep(3)">مليون بالمية</button>
+            </div>
+        </div>
+
+        <!-- السؤال الرابع (مقلب الهروب عند الكبس) -->
+        <div class="step" id="step4">
+            <h2>السؤال الرابع والمهم جداً: <br> بتحبيني؟ 🤔❤️</h2>
+            <div class="btn-container" id="run-container">
+                <button class="btn-yes" id="final-yes-btn" onclick="showFinal()">نعم</button>
+                <button class="btn-no" id="run-no-btn" onclick="escapeButton()">لا</button>
+            </div>
+        </div>
+
+        <!-- الرسالة النهائية -->
+        <div class="step" id="final-step">
+            <div class="final-heart">❤️</div>
+            <div class="final-message">
+                كنت بعرف! 🥰 <br>
+              الله يحفظكِ إلي وما يحرمني من وجودكِ وضحتكِ يا أحلى فروحة بالدنيا كلها. دمتِ لي شيئاً جميلاً لا ينتهي! ✨❤️
+              ربنا يكون معك انا عارف انك قاعده بتمرقي بفتره صعبه بس انا مش طالع بيدي اشي غير اني اضل جنبك
+              حتى احاول اخفف عنك الهم الي شايليته وانا بحب اسمعك حتى لو تعيدي نفس الموضوع مليون مرى
+              بس عشان تعرفي انا جنبك لأخر يوم بحياتي لانه بحبش اشوفك بهاي الحاله بس انا ومستحيل اتركك لحالك
+              بس انتي مبين كثير زعلانه مهما كان رح يهون ربنا اكبر من كل اشي 
+              وانا جنبك حتى لو انتي مابدك لانك بتهميني باصغر تفصيله تصير بحياتك
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function nextStep(currentStepNum) {
+            document.getElementById(`step${currentStepNum}`).classList.remove('active');
+            document.getElementById(`step${currentStepNum + 1}`).classList.add('active');
+        }
+
+        function escapeButton() {
+            const noBtn = document.getElementById('run-no-btn');
+            const randomX = Math.floor(Math.random() * (220 - (-120) + 1)) + (-120);
+            const randomY = Math.floor(Math.random() * (120 - (-120) + 1)) + (-120);
+            
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        function showFinal() {
+            document.getElementById('step4').classList.remove('active');
+            document.getElementById('final-step').classList.add('active');
+            setInterval(createFloatingElement, 200);
+        }
+
+        const elementsPool = ['❤️', '💖', '🥰', '✨', '🌸', '💘', '😍'];
+        function createFloatingElement() {
+            const el = document.createElement('div');
+            el.classList.add('floating-element');
+            el.innerText = elementsPool[Math.floor(Math.random() * elementsPool.length)];
+            
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            el.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            
+            document.body.appendChild(el);
+            
+            setTimeout(() => {
+                el.remove();
+            }, 7000);
+        }
+
+        setInterval(createFloatingElement, 600);
+    </script>
+</body>
+</html>
